@@ -3,8 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { HabitsToday, HabitInfo, Container } from "./styles";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
+import Footer from "../Footer";
 
-export default function TodayPage() {
+export default function TodayPage({ image, progress }) {
     const [habits, setHabits] = useState([]);
     const { token } = useContext(UserContext);
     const [isSelected, setIsSelected] = useState(false);
@@ -23,7 +24,8 @@ export default function TodayPage() {
     const date = today.format("DD/MM")
     const todayPortuguese = dayweekTranslator[todayEnglish];
     const todayTitle = `${todayPortuguese}, ${date}`;
-
+    const colorProgress = (progress==0 ? true : false);
+    console.log(colorProgress);
 
     useEffect(() => {
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', {
@@ -52,19 +54,28 @@ export default function TodayPage() {
 
 
     return (
-        <Container>
-            <Header />
+        <Container colorText={colorProgress}>
+            <Header image={image}/>
             <h3>{todayTitle}</h3>
+            <h5 >{
+                colorProgress ? 
+                    "Nenhum hábito concluído hoje"
+                :   
+                    `${progress}% dos hábitos concluídos`}        
+            </h5>
             <HabitsToday>           
                 {habits.map((habit) => (
-                    <HabitInfo>
-                        {habit.name}
-                        <ion-icon onClick={() => handleSelected(habit)} isSelected={habit.done} name="checkbox"></ion-icon>
+                    <HabitInfo isSelected={habit.done} isRecord={habit.currentSequence===habit.highestSequence && habit.highestSequence>0}>
+                        <h4>{habit.name}</h4>
+                        
+                        <p>Sequência atual: <span className='current-days'>{habit.currentSequence} dias</span></p>
+                        <p>Seu recorde: <span className='record'>{habit.highestSequence} dias</span></p>
+                        <ion-icon onClick={() => handleSelected(habit)}  name="checkbox"></ion-icon>
                     </HabitInfo>
                     
                 ))}  
             </HabitsToday>
-            
+            <Footer progress={progress}/>
         </Container>
     );
 }

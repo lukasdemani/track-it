@@ -13,6 +13,12 @@ const Container = styled.div `
         color: #126BA5;
     };
 
+    h5{
+        font-size: 18px;
+        color: ${props => props.colorText ? '#BABABA' : '#8FC549'};
+        padding-top: 5px;
+    };
+
 `;
 
 const HabitsToday = styled.div ` 
@@ -20,6 +26,8 @@ const HabitsToday = styled.div `
     flex-direction: column;
     gap: 10px;
     padding-top: 20px;
+
+    
 `;
 
 const HabitInfo = styled.div `
@@ -33,6 +41,23 @@ const HabitInfo = styled.div `
     padding: 13px;
     position: relative;
     color: #666666;
+
+    h4 {
+        font-size: 20px;
+        padding-bottom: 7px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    .current-days{
+        color: ${props => props.isSelected ? "#8FC549" : "#666666"};
+    }
+
+    .record {
+        color: ${props => props.isRecord && "#8FC549"};
+    }
 
     ion-icon {
         position: absolute;

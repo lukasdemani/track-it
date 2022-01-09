@@ -5,10 +5,12 @@ import HabitsPage from "./components/HabitsPage";
 import TodayPage from "./components/TodayPage";
 import { useState } from "react";
 import UserContext from "./contexts/UserContext";
+import ProgressContext from "./contexts/ProgressContext";
 
 export default function App() {
     const [token, setToken] = useState('');
     const [image, setImage] = useState();
+    const [progress, setProgress] = useState(20);
 
     return (
         <UserContext.Provider value={{token, setToken}}>    
@@ -16,8 +18,8 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<LoginPage setImage={setImage}/>} />  
                     <Route path="/cadastro" element={<SignUpPage />} />
-                    <Route path="/habitos" element={<HabitsPage image={image}/>} />
-                    <Route path='/hoje' element={<TodayPage />} />
+                    <Route path="/habitos" element={<HabitsPage image={image} progress={progress}/>} />
+                    <Route path='/hoje' element={<TodayPage image={image} progress={progress}/>} />
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>

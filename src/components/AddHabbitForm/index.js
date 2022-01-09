@@ -5,7 +5,7 @@ import React from "react";
 import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 
-export default function AddHabbitForm({ displayForm, setDisplayForm }) {
+export default function AddHabbitForm({ displayForm, setDisplayForm, habits, setHabits }) {
     const dayweek = [
         {id:0, label: 'D'},
         {id:1, label: 'S'},
@@ -35,7 +35,9 @@ export default function AddHabbitForm({ displayForm, setDisplayForm }) {
             }
             });
         promise.then(response => {
-            console.log(response)
+            setHabits([...habits, response.data])
+            setNewHabit('')
+            setSelectedDays([])
         });
         promise.catch(error => console.log(error.response));
     }

@@ -8,7 +8,14 @@ const Container = styled.div `
     justify-content: center;
     align-items: center;
     gap: 6px;
-`;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+    }`;
 
 const StyledLink = styled(Link)`
     height: 40px;

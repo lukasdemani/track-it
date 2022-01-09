@@ -5,6 +5,7 @@ const Container = styled.div `
     height: 100vh;
     
     padding-top: 90px;
+    margin-bottom: 85px;
     padding-right: 17px;
     padding-left: 17px;
     background-color: #E5E5E5;
@@ -66,6 +67,9 @@ const HabitsList = styled.div `
     flex-direction: column;
     gap: 10px;
     padding-top: 20px;
+    
+    background-color: #E5E5E5;
+    color: #666666;
 `;
 
 const Grid = styled.div `
@@ -79,10 +83,15 @@ const Day = styled.div `
     width: 30px;
     height: 30px;
 
-    background: ${props => props.isSelected ? '#DBDBDB' : '#ffffff'};
-    border: 1px solid #D5D5D5;
+    background: ${props => props.isSelected ? '#CFCFCF' : '#ffffff'};
+    color: ${props => props.isSelected ? '#FFFFFF' : '#CFCFCF'};
+    border: 1px solid #CFCFCF;
     box-sizing: border-box;
     border-radius: 5px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 

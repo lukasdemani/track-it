@@ -7,7 +7,7 @@ import AddHabbitForm from "../AddHabbitForm";
 import Footer from "../Footer";
 import UserContext from "../../contexts/UserContext";
 
-export default function HabitsPage({ image }) {
+export default function HabitsPage({ image, progress }) {
     const dayweek = [
         {id:0, label: 'D'},
         {id:1, label: 'S'},
@@ -21,7 +21,6 @@ export default function HabitsPage({ image }) {
     const [habits, setHabits] = useState([]);
     const [displayForm, setDisplayForm] = useState('none');
     const { token } = useContext(UserContext);
-
     
     useEffect(() => {
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {
@@ -33,13 +32,15 @@ export default function HabitsPage({ image }) {
         promise.catch(error => console.log(error.response));
     }, []);
     
-    function handleDelete(id) {
-        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, {
+    function handleDelete(habit) {
+        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
-        promise.then();
+        promise.then(() => 
+            setHabits(habits.filter((value) => value!==habit))
+        );
         promise.catch(error => console.log(error.response)); 
     }
   
@@ -50,9 +51,9 @@ export default function HabitsPage({ image }) {
                 <h1>Meus hábitos</h1>
                 <Plus onClick={() => setDisplayForm('')}>+</Plus>
             </span>
-            <AddHabbitForm displayForm={displayForm} setDisplayForm={setDisplayForm} token={token} color="green"/>
+            <AddHabbitForm displayForm={displayForm} setDisplayForm={setDisplayForm} token={token} habits={habits} setHabits={setHabits} color="green"/>
             <HabitsList>
-                {habits===[] ? 
+                {habits.length===0 ? 
                     <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                 :
                     habits.map((habit) => (
@@ -64,10 +65,10 @@ export default function HabitsPage({ image }) {
                                     {day.label}
                                 </Day>))}
                         </Grid>
-                        <ion-icon onClick={() => handleDelete(habit.id)} name="trash-outline"></ion-icon>
+                        <ion-icon onClick={() => handleDelete(habit)} name="trash-outline"></ion-icon>
                     </Habit>))}
             </HabitsList>
-            <Footer></Footer>
+            <Footer progress={progress}></Footer>
         </Container>
     );
 }
