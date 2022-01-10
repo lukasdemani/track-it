@@ -48,6 +48,12 @@ const StyledLink = styled(Link)`
     color: #ffffff;
     text-decoration: none;
     font-size: 18px;
+
+    p {
+       
+        color: #52B6FF;
+        font-size: 18px; 
+    }
 `;
 
 export {

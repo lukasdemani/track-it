@@ -5,7 +5,7 @@ import axios from "axios";
 import UserContext from "../../contexts/UserContext";
 import Footer from "../Footer";
 
-export default function TodayPage({ image, progress }) {
+export default function TodayPage({ image, progress, setProgress }) {
     const [habits, setHabits] = useState([]);
     const { token } = useContext(UserContext);
     const [isSelected, setIsSelected] = useState(false);
@@ -25,7 +25,7 @@ export default function TodayPage({ image, progress }) {
     const todayPortuguese = dayweekTranslator[todayEnglish];
     const todayTitle = `${todayPortuguese}, ${date}`;
     const colorProgress = (progress==0 ? true : false);
-    console.log(colorProgress);
+    const [renderize, setRenderize] = useState(false);
 
     useEffect(() => {
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', {
@@ -35,20 +35,30 @@ export default function TodayPage({ image, progress }) {
         });
         promise.then(response => setHabits(response.data) );
         promise.catch(error => console.log(error.response));
-    }, []);
+    }, [renderize]);
 
     function handleSelected(habit) {
-        console.log(habit.id);
-        console.log(habit.done);
-        console.log(token);
-        const request = axios.post(
-            `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        request.then(response => console.log(response));
-        request.catch(error => console.log(error.response));
+        if (!habit.done) {
+            const request = axios.post(
+                `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            request.then(setRenderize(!renderize));
+            request.catch(error => console.log(error.response));
+        }else{
+            const request = axios.post(
+                `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            request.then(setRenderize(!renderize));
+            request.catch(error => console.log(error.response));
+        }
+
+        
         
     }
 
@@ -75,7 +85,7 @@ export default function TodayPage({ image, progress }) {
                     
                 ))}  
             </HabitsToday>
-            <Footer progress={progress}/>
+            <Footer progress={progress} setProgress={setProgress}/>
         </Container>
     );
 }

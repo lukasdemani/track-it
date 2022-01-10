@@ -6,22 +6,22 @@ import axios from 'axios';
 import Input from '../Input';
 import Button from '../Button';
 import UserContext from '../../contexts/UserContext';
-import Loader from "react-loader-spinner";
+import Loading from '../../Loading';
 
 export default function LoginPage({ setImage }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const { setToken } = useContext(UserContext);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     function handleLogin(e) {
         e.preventDefault();
-        setIsLoading(true);
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', {
             email,
             password
         });
+
         promise.then(response => {
             setToken(response.data.token)
             setImage(response.data.image)
@@ -36,13 +36,8 @@ export default function LoginPage({ setImage }) {
             <form onSubmit={handleLogin}>
                 <Input type='email' onChange={(e) => setEmail(e.target.value)} value={email} placeholder='email'/>
                 <Input type='password' onChange={(e) => setPassword(e.target.value)} value={password} placeholder='senha'/>
-                <Button type="submit">
-                    
-                    
-                        "Entrar"
-
-                    
-                    </Button>
+                {/* <Button type="submit" disabled={isLoading} > {isLoading ? <Loading/> : 'Entrar'} </Button> */}
+                <Button type="submit" >Entrar</Button>
             </form>
             <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
         </Container>

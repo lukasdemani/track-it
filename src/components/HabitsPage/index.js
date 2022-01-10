@@ -7,7 +7,7 @@ import AddHabbitForm from "../AddHabbitForm";
 import Footer from "../Footer";
 import UserContext from "../../contexts/UserContext";
 
-export default function HabitsPage({ image, progress }) {
+export default function HabitsPage({ image, progress, setProgress }) {
     const dayweek = [
         {id:0, label: 'D'},
         {id:1, label: 'S'},
@@ -68,7 +68,7 @@ export default function HabitsPage({ image, progress }) {
                         <ion-icon onClick={() => handleDelete(habit)} name="trash-outline"></ion-icon>
                     </Habit>))}
             </HabitsList>
-            <Footer progress={progress}></Footer>
+            <Footer progress={progress} setProgress={setProgress}></Footer>
         </Container>
     );
 }
