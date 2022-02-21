@@ -4,7 +4,7 @@ A habits tracking app written in React that allows you to improve your disciplin
 
 # About this Project 
 
-I`ve written this project to get more experince developing with React. 
+I`ve written this project to get more experience developing with React. 
 I'll be glad you provide me some feedback.
 
 # Technologies
