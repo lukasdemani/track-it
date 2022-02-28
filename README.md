@@ -9,7 +9,7 @@ I'll be glad you provide me some feedback.
 
 # Technologies
 
-React
+React</br>
 React-Router
 Styled-Components
 CSS
